@@ -378,31 +378,31 @@ elseif ($ac == 'add') {
                         <div class="col-12 col-sm-3">
                             <div class="form-group local-forms">
                                 <label>Maker<span class="login-danger">*</span></label>
-                                <input class="form-control" type="text" placeholder="Nhập tên nhà sản xuất">
+                                <input class="form-control" id="slMaker" type="text" placeholder="Nhập tên nhà sản xuất">
                             </div>
                         </div>
                         <div class="col-12 col-sm-3">
                             <div class="form-group local-forms">
                                 <label>Model<span class="login-danger">*</span></label>
-                                <input class="form-control" type="text" placeholder="Nhập chủng loại máy">
+                                <input class="form-control" type="text" id="slModel" placeholder="Nhập chủng loại máy">
                             </div>
                         </div>
                         <div class="col-12 col-sm-3">
                             <div class="form-group local-forms">
                                 <label>Serial No.<span class="login-danger">*</span></label>
-                                <input class="form-control" type="text" placeholder="Nhập số sêri">
+                                <input class="form-control" type="text" id="slSerial" placeholder="Nhập số sêri">
                             </div>
                         </div>
                         <div class="col-12 col-sm-3">
                             <div class="form-group local-forms">
                                 <label>Date Error<span class="login-danger">*</span></label>
-                                <input class="form-control datetimepicker" type="text" placeholder="Nhập số thời gian lỗi">
+                                <input class="form-control datetimepicker" type="text" id="slDateErr" placeholder="Nhập số thời gian lỗi">
                             </div>
                         </div>
                         <div class="col-12 col-sm-3">
                             <div class="form-group local-forms">
                                 <label>Running Hours<span class="login-danger">*</span></label>
-                                <input class="form-control datetimepicker" type="text" placeholder="Nhập số thời gian hoạt động lại">
+                                <input class="form-control datetimepicker" type="text" id="slDateOK" placeholder="Nhập số thời gian hoạt động lại">
                             </div>
                         </div>
                         <!-- Khai báo lỗi -->
@@ -411,14 +411,14 @@ elseif ($ac == 'add') {
                                 Hình ảnh
                             </h5>
                         </div>
-                        <div class="col-12 col-sm-3">
+                        <div class="col-12 col-sm-6">
                             <div class="form-group students-up-files">
-                                <label><span class="login-danger">*</span> Upload ảnh dưới 5Mb</label>
-                                <div class="upload">
-                                    <label class="file-upload image-upbtn mb-0">
-                                        Choose File <input type="file" accept="image/*" name="img_up[]" id="img_up" onchange="preUpImg();" multiple>
-                                    </label>
-                                </div>
+                                <label><span class="login-danger">*</span> Upload ảnh <= 10Mb, số lượng ảnh <=10</label>
+                                        <div class="upload">
+                                            <label class="file-upload image-upbtn mb-0">
+                                                Choose File <input type="file" accept="image/*" name="img_up[]" id="img_up" onchange="preUpImg();" multiple>
+                                            </label>
+                                        </div>
                             </div>
                         </div>
                         <div class="form-group box-pre-img hidden row"><!-- hiện ảnh xem trước --></div>
@@ -431,126 +431,248 @@ elseif ($ac == 'add') {
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Vấn đề phát sinh</label>
                             <div class="col-lg-9">
-                                <textarea rows="2" class="form-control" placeholder="Nêu ngắn gọn vế đề xảy ra"></textarea>
+                                <textarea rows="2" class="form-control" id="err_problem" placeholder="Nêu ngắn gọn vế đề xảy ra"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Phân tích sự cố</label>
                             <div class="col-lg-9">
-                                <textarea rows="3" class="form-control" placeholder="Phân tích các vấn đề liên quan có thể gây ra lỗi"></textarea>
+                                <textarea rows="3" class="form-control" id="err_analysis" placeholder="Phân tích các vấn đề liên quan có thể gây ra lỗi"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Phương pháp xử lí</label>
                             <div class="col-lg-9">
-                                <textarea rows="5" class="form-control" placeholder="Các bươc tiến hành xử lí. Nêu chi tiết"></textarea>
+                                <textarea rows="5" class="form-control" id="treatment_method" placeholder="Các bươc tiến hành xử lí. Nêu chi tiết"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Đối sách tạm thời</label>
                             <div class="col-lg-9">
-                                <textarea rows="3" class="form-control" placeholder="Biện pháp xử lí có thể áp dụng ngay để máy có thể tiếp tục sản xuất"></textarea>
+                                <textarea rows="3" class="form-control" id="pro_coun" placeholder="Biện pháp xử lí có thể áp dụng ngay để máy có thể tiếp tục sản xuất"></textarea>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label class="col-lg-3 col-form-label">Đối sách lâu dài</label>
                             <div class="col-lg-9">
-                                <textarea rows="3" class="form-control" placeholder="Biện pháp hạn chế rủi ro dài hạn"></textarea>
+                                <textarea rows="3" class="form-control" id="lg_coun" placeholder="Biện pháp hạn chế rủi ro dài hạn"></textarea>
                             </div>
                         </div>
-                        <div id="addStatus" style="display: none">đs</div>
+                        <div id="addStatus" style="display: none"></div>
                         <div class="col-12">
                             <div class="student-submit">
                                 <button class="btn btn-primary" id="addTrouble">Submit</button>
                             </div>
                         </div>
-
+                        <div class="form-group box-progress-bar hidden mt-3">
+                            <div class="progress">
+                                <div class="progress-bar" role="progressbar"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <script src="<?php echo $_DOMAIN; ?>assets/plugins/moment/moment.min.js"></script>
-        <script src="<?php echo $_DOMAIN; ?>assets/plugins/daterangepicker/daterangepicker.js"></script>
-        <script>
-            $(document).attr('title', 'EM - Thêm báo cáo')
+    <script src="<?php echo $_DOMAIN; ?>assets/plugins/moment/moment.min.js"></script>
+    <script src="<?php echo $_DOMAIN; ?>assets/plugins/daterangepicker/daterangepicker.js"></script>
+    <script>
+        $(document).attr('title', 'EM - Thêm báo cáo')
 
-            $('.datetimepicker').daterangepicker({
-                timePicker: true,
-                locale: {
-                    format: 'HH:mm DD/MM/YYYY'
+        $('.datetimepicker').daterangepicker({
+            timePicker: true,
+            locale: {
+                format: 'HH:mm DD/MM/YYYY'
+            },
+            singleDatePicker: true,
+            showDropdowns: true,
+            drops: "down",
+        })
+        const loadData = () => {
+            $.ajax({
+                type: "POST",
+                url: "<?php echo $_DOMAIN; ?>php/eq-report-trouble.php",
+                data: {
+                    action: 'loadInfo'
                 },
-                singleDatePicker: true,
-                showDropdowns: true,
-                drops: "down",
-            })
-            const loadData = () => {
-                $.ajax({
-                    type: "POST",
-                    url: "<?php echo $_DOMAIN; ?>php/eq-report-trouble.php",
-                    data: {
-                        action: 'loadInfo'
-                    },
-                    dataType: "json",
-                    success: function(data) {
-                        //console.log(data)
-                        $('#slLine').html('<option>Chọn tên Line</option>')
-                        $.each(data[0], (id, line) => {
-                            $('#slLine').append('<option value="' + line + '">' + line + '</option>')
-                        })
-                        $('#slMachine').html('<option>Chọn tên Machine</option>')
-                        $.each(data[1], (id, machine) => {
-                            $('#slMachine').append('<option value="' + machine + '">' + machine + '</option>')
-                        })
-                    },
-                    error: (a, b, c) => {
-                        console.error(b)
-                    }
-                });
-            }
-            // Xem ảnh trước
-            const preUpImg = () => {
-                img_up = $('#img_up').val();
-                count_img_up = $('#img_up').get(0).files.length;
-                //$('.box-pre-img').html('<p><strong>Ảnh xem trước</strong></p>');
-                //$('.box-pre-img').removeClass('hidden');
-
-                // Nếu đã chọn ảnh
-                if (img_up != '') {
-                    $('.box-pre-img').html('<p><strong>Ảnh xem trước</strong></p>');
-                    $('.box-pre-img').removeClass('hidden');
-                    for (i = 0; i <= count_img_up - 1; i++) {
-                        $('.box-pre-img').append('<div class="col-auto">' +
-                            '<img src="' + URL.createObjectURL(event.target.files[i]) + '" style="border: 1px solid #ddd; width: 250px; height: 250px; margin-right: 5px; margin-bottom: 5px;"/>' +
-                            '<input class="form-control" type="text" placeholder="Nhập tên lỗi" style="width: 250px;"/>' +
-                            '</div>');
-                    }
+                dataType: "json",
+                success: function(data) {
+                    //console.log(data)
+                    $('#slLine').html('<option>Chọn tên Line</option>')
+                    $.each(data[0], (id, line) => {
+                        $('#slLine').append('<option value="' + line + '">' + line + '</option>')
+                    })
+                    $('#slMachine').html('<option>Chọn tên Machine</option>')
+                    $.each(data[1], (id, machine) => {
+                        $('#slMachine').append('<option value="' + machine + '">' + machine + '</option>')
+                    })
+                },
+                error: (a, b, c) => {
+                    console.error(b)
                 }
-                // Ngược lại chưa chọn ảnh
-                else {
-                    $('.box-pre-img').html('');
-                    $('.box-pre-img').addClass('hidden');
+            });
+        }
+        // Xem ảnh trước
+        const preUpImg = () => {
+            img_up = $('#img_up').val();
+            count_img_up = $('#img_up').get(0).files.length;
+            //$('.box-pre-img').html('<p><strong>Ảnh xem trước</strong></p>');
+            //$('.box-pre-img').removeClass('hidden');
+
+            // Nếu đã chọn ảnh
+            if (img_up != '') {
+                $('.box-pre-img').html('<p><strong>Ảnh xem trước</strong></p>');
+                $('.box-pre-img').removeClass('hidden');
+                for (i = 0; i < count_img_up; i++) {
+                    $('.box-pre-img').append('<div class="col-auto">' +
+                        '<img src="' + URL.createObjectURL(event.target.files[i]) + '" style="border: 1px solid #ddd; width: 250px; height: 250px; margin-right: 5px; margin-bottom: 5px;"/>' +
+                        '<input class="form-control" id="cmtImg' + i + '" type="text" placeholder="Nhập tên lỗi" style="width: 250px;"/>' +
+                        '</div>');
                 }
             }
+            // Ngược lại chưa chọn ảnh
+            else {
+                $('.box-pre-img').html('');
+                $('.box-pre-img').addClass('hidden');
+            }
+        }
 
-            $('#addTrouble').on('click', async (e) => {
-                e.preventDefault();
-                var formData = new FormData();
+        $('#addTrouble').on('click', async (e) => {
+            e.preventDefault();
+            $('.status').empty()
+            var formData = new FormData();
+            $('#addStatus').html('')
+            $('#addStatus').css('display', 'block'); //hiện vị trí thông báo
+            formData.append("action", "addTrouble");
+            img_up = $('#img_up').val(); //biến hình ảnh added
+            count_img_up = $('#img_up').get(0).files.length;
+            error_size_img = 0;
+            error_type_img = 0;
+
+            //Thêm dữ liệu line
+            if ($('#slLine').val().indexOf('Chọn') == -1) formData.append("lineName", $('#slLine').val());
+            else {
+                $('#addStatus').html('<div class="alert alert-danger">Chưa chọn Line.</div>');
+                return;
+            }
+            if ($('#slMachine').val().indexOf('Chọn') == -1) formData.append("machineName", $('#slMachine').val());
+            else {
+                $('#addStatus').html('<div class="alert alert-danger">Chưa chọn Machine.</div>');
+                return;
+            }
+            if ($('#slMaker').val() != '') formData.append("machineMaker", $('#slMaker').val());
+            else {
+                $('#addStatus').html('<div class="alert alert-danger">Maker không được để trống.</div>');
+                return;
+            }
+            if ($('#slModel').val() != '') formData.append("machineModel", $('#slModel').val());
+            else {
+                $('#addStatus').html('<div class="alert alert-danger">Model không được để trống.</div>');
+                return;
+            }
+            if ($('#slSerial').val() != '') formData.append("machineSerial", $('#slSerial').val());
+            else {
+                $('#addStatus').html('<div class="alert alert-danger">Serial không được để trống.</div>');
+                return;
+            }
+            formData.append("dateErr", $('#slDateErr').val());
+            formData.append("dateOK", $('#slDateOK').val());
+
+            // Thêm dữ liệu ảnh
+            if (img_up) {
+                // Kiểm tra dung lượng ảnh
+                for (i = 0; i < count_img_up; i++) {
+                    size_img_up = $('#img_up')[0].files[i].size;
+                    if (size_img_up > 10485760) { // 10485760 byte = 10MB 
+                        error_size_img += 1; // Lỗi
+                    } else {
+                        error_size_img += 0; // Không lỗi
+                    }
+                }
+                // Kiểm tra định dạng ảnh
+                for (i = 0; i < count_img_up; i++) {
+                    type_img_up = $('#img_up')[0].files[i].type;
+                    if (type_img_up == 'image/jpeg' || type_img_up == 'image/png' || type_img_up == 'image/gif') {
+                        error_type_img += 0;
+                    } else {
+                        error_type_img += 1;
+                    }
+                }
+                // Nếu lỗi về size ảnh
+                if (error_size_img >= 1) {
+                    $('#addStatus').html('<div class="alert alert-danger">Một trong các tệp đã chọn có dung lượng lớn hơn mức cho phép.</div>');
+                    return
+                } else if (count_img_up > 10) { // Nếu số lượng ảnh vượt quá 20 file
+                    $('#addStatus').html('<div class="alert alert-danger">Số file upload cho mỗi lần vượt quá mức cho phép.</div>');
+                    return
+                } else if (error_type_img >= 1) {
+                    $('#addStatus').html('<div class="alert alert-danger">Một trong những file ảnh không đúng định dạng cho phép.</div>');
+                    return
+                } else { //nếu không lỗi thì thêm vào form
+                    for (i = 0; i < count_img_up; i++) {
+                        formData.append("fileUpload[]", $('#img_up').get(0).files[i]);
+                        formData.append("imgComment[]", $('#cmtImg' + i).val());
+                    }
+                }
+            } else {
+                $('#addStatus').html('<div class="alert alert-danger">Không có ảnh là ko được à nha</div>');
+                return
+            }
+            //Thêm dữ liệu lỗi
+            formData.append("err_problem", $('#err_problem').val());
+            formData.append("err_analysis", $('#err_analysis').val());
+            formData.append("treatment_method", $('#treatment_method').val());
+            formData.append("pro_coun", $('#pro_coun').val());
+            formData.append("lg_coun", $('#lg_coun').val());
 
 
-                console.log($('#slLine').val())
+            $('.box-progress-bar').removeClass('hidden');
+            $('.progress-bar').width('0%');
+            $.ajax({
+                url: '<?php echo $_DOMAIN; ?>php/eq-report-trouble.php',
+                type: 'POST',
+                xhr: function() {
+                    var myXhr = $.ajaxSettings.xhr();
+                    if (myXhr.upload) {
+                        myXhr.upload.addEventListener('progress', function(event) {
+                            var percent = 0;
+                            if (event.lengthComputable) {
+                                percent = Math.ceil(event.loaded / event.total * 100);
+                            }
+                            $('.progress-bar').animate({
+                                width: percent + '%'
+                            });
+                            $('.progress-bar').html(percent + '%');
+                        }, false);
+                    }
+                    return myXhr;
+                },
+                success: function(data) {
+                    console.log(data)
+                },
+                error: function(a, b, c) {
+                    console.error(b)
+                },
+                data: formData,
+                cache: false,
+                contentType: false,
+                processData: false
+            });
 
-                //location.reload();
-            })
 
-            $(document).ready(() => {
-                loadData();
-            })
-        </script>
 
-    <?php
+            return false;
+        })
+
+        $(document).ready(() => {
+            loadData();
+        })
+    </script>
+
+<?php
 } else {
     include_once './pages/authentication/404.php';
 }
 
-    ?>
+?>

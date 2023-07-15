@@ -44,5 +44,28 @@ if (isset($_POST['action'])) {
             }
         }
         echo json_encode($data_export);
+    } elseif ($action == 'addTrouble') {
+        $imagesUp = $_FILES['fileUpload'];
+        $imgComment = $_POST['imgComment']; //note của ảnh
+
+        $lineName = trim(addslashes(htmlspecialchars($_POST['lineName'])));
+        $machineName = trim(addslashes(htmlspecialchars($_POST['machineName'])));
+        $machineMaker = trim(addslashes(htmlspecialchars($_POST['machineMaker'])));
+        $machineModel = trim(addslashes(htmlspecialchars($_POST['machineModel'])));
+        $machineSerial = trim(addslashes(htmlspecialchars($_POST['machineSerial'])));
+        $dateErr = trim(addslashes(htmlspecialchars($_POST['dateErr'])));
+        $dateOK = trim(addslashes(htmlspecialchars($_POST['dateOK'])));
+        $err_problem = trim(addslashes(htmlspecialchars($_POST['err_problem'])));
+        $err_analysis = trim(addslashes(htmlspecialchars($_POST['err_analysis'])));
+        $treatment_method = trim(addslashes(htmlspecialchars($_POST['treatment_method'])));
+        $pro_coun = trim(addslashes(htmlspecialchars($_POST['pro_coun'])));
+        $lg_coun = trim(addslashes(htmlspecialchars($_POST['lg_coun'])));
+        //xử lý lưu ảnh
+        foreach ($imagesUp['name'] as $name => $value) {
+            $path_file = '../pages/EQ Report/images/' . preg_replace('/[^a-zA-Z0-9_%\[().\]]/s', '', $date_current) . $name . preg_replace('/[^a-zA-Z0-9_%\[().\]]/s', '', stripslashes($imagesUp['name'][$name]));
+            $source_file = $imagesUp['tmp_name'][$name];
+            move_uploaded_file($source_file, $path_file); // Upload file
+            echo json_encode($path_file);
+        }
     }
 }

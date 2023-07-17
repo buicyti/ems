@@ -61,11 +61,48 @@ if (isset($_POST['action'])) {
         $pro_coun = trim(addslashes(htmlspecialchars($_POST['pro_coun'])));
         $lg_coun = trim(addslashes(htmlspecialchars($_POST['lg_coun'])));
         //xử lý lưu ảnh
+        $err_picture = '{';
         foreach ($imagesUp['name'] as $name => $value) {
             $path_file = '../pages/EQ Report/images/' . preg_replace('/[^a-zA-Z0-9_%\[().\]]/s', '', $date_current) . $name . preg_replace('/[^a-zA-Z0-9_%\[().\]]/s', '', stripslashes($imagesUp['name'][$name]));
             $source_file = $imagesUp['tmp_name'][$name];
             move_uploaded_file($source_file, $path_file); // Upload file
-            echo json_encode($path_file);
+            $err_picture .= '"' . substr($path_file, 3, strlen($path_file)) . '" : "' . $imgComment[$name] . '",';
         }
+        $err_picture = substr($err_picture, 0, strlen($err_picture) - 1) . '}';
+
+        $sql_insert_trouble = "INSERT INTO `eq_report_trouble`(
+            `err_date_time`,
+            `running_hour`,
+            `line_name`,
+            `machine_name`,
+            `model_name`,
+            `serial_no`,
+            `maker`,
+            `err_problem`,
+            `err_pictures`,
+            `err_analysis`,
+            `treatment_method`,
+            `provisional_countermeasures`,
+            `long_term_countermeasures`,
+            `user_created`,
+            `user_modify`
+        ) VALUES (
+            '$dateErr',
+            '$dateOK',
+            '$lineName',
+            '$machineName',
+            '$machineModel',
+            '$machineSerial',
+            '$machineMaker',
+            '$err_problem',
+            '$err_picture',
+            '$err_analysis',
+            '$treatment_method',
+            '$pro_coun',
+            '$lg_coun',
+            '$user',
+            '$user'
+        )";
+        $db->query($sql_insert_trouble);
     }
 }

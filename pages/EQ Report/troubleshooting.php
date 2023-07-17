@@ -5,6 +5,7 @@ else $ac = '';
 if ($ac == '') {
 ?>
     <link rel="stylesheet" href="<?php echo $_DOMAIN; ?>assets/plugins/datatables/datatables.min.css">
+    <link rel="stylesheet" href="<?php echo $_DOMAIN; ?>assets/plugins/scrollbar/scroll.min.css">
 
     <div class="page-header">
         <div class="row">
@@ -93,7 +94,7 @@ if ($ac == '') {
                     <h4 class="modal-title fw-bold" id="staticBackdropLabel">Machine Troubleshooting Report</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body vertical-scroll">
                     <table class="table table-bordered" id="tabModalView">
                         <tbody class="text-center">
                             <tr>
@@ -180,6 +181,9 @@ if ($ac == '') {
 
     <script src="<?php echo $_DOMAIN; ?>assets/plugins/moment/moment.min.js"></script>
     <script src="<?php echo $_DOMAIN; ?>assets/plugins/datatables/datatables.min.js"></script>
+    <script src="<?php echo $_DOMAIN; ?>assets/plugins/datatables/fixedColumns.min.js"></script>
+    <script src="<?php echo $_DOMAIN; ?>assets/plugins/scrollbar/scrollbar.min.js"></script>
+    <script src="<?php echo $_DOMAIN; ?>assets/plugins/scrollbar/custom-scroll.js"></script>
     <!-- <script src=""></script> -->
     <script>
         $(document).attr('title', 'EM - Báo cáo sự cố bất thường')
@@ -236,6 +240,7 @@ if ($ac == '') {
                 },
                 {
                     data: null,
+                    orderable: false,
                     title: 'Action',
                     defaultContent: '<div class="actions ">' +
                         '<p class="btn btn-sm bg-info-light me-2"><i class="feather-eye"></i></p>' +
@@ -244,16 +249,23 @@ if ($ac == '') {
                         '</div>'
                 }
             ],
+            fixedColumns: {
+                left: 2,
+                right: 1
+            },
+            scrollCollapse: true,
+            scrollX: true,
             drawCallback: (setting) => {
+
                 //nút xem
-                $('.datatable tbody tr td:nth-child(10) p:nth-child(1)').off('click')
-                $('.datatable tbody tr td:nth-child(10) p:nth-child(1)').on('click', function() {
+                $('.datatable tbody tr').off('click')
+                $('.datatable tbody tr').on('click', 'td:eq(0), td:eq(1), td:eq(2), td:eq(3), td:eq(4), td:eq(5), td:eq(6), td:eq(7), td:eq(8)', function() {
                     $.ajax({
                         type: "POST",
                         url: "<?php echo $_DOMAIN; ?>php/eq-report-trouble.php",
                         data: {
                             action: 'showModal',
-                            ids: tableData.rows($(this).parent().parent().parent()).data()[0]['ids']
+                            ids: tableData.row($(this).parent()).data()['ids']
                         },
                         dataType: "json",
                         success: function(data) {
@@ -298,6 +310,12 @@ if ($ac == '') {
                     });
                     $('#staticBackdrop').modal('show')
                 })
+                //nút sửa
+                $('.datatable tbody tr td:nth-child(10) p:nth-child(2)').off('click')
+                $('.datatable tbody tr td:nth-child(10) p:nth-child(2)').on('click', function() {
+                    console.log(tableData.row($(this).parent().parent().parent()).data()['ids'])
+                    $(location).attr('href', '<?php echo $_DOMAIN; ?>eq-report-troubleshooting/edit/' + tableData.row($(this).parent().parent().parent()).data()['ids'])
+                })
             },
             language: {
                 "sProcessing": "Đang xử lý...",
@@ -328,7 +346,12 @@ if ($ac == '') {
 
 <?php
 } //kết thúc biến home
-elseif ($ac == 'add') {
+elseif ($ac == 'add' || $ac == 'edit') {
+    if ($ac == 'edit') {
+        if (isset($_GET['id'])) $id = trim(addslashes(htmlspecialchars($_GET['id'])));
+        else $id = '';
+        //kiểm tra dữ liệu
+    }
 ?>
 
     <link rel="stylesheet" href="<?php echo $_DOMAIN; ?>assets/plugins/daterangepicker/daterangepicker.css">
@@ -538,7 +561,7 @@ elseif ($ac == 'add') {
             }
         }
 
-        $('#addTrouble').on('click', async (e) => {
+        const submitAdd = (e) => {
             e.preventDefault();
             $('.status').empty()
             var formData = new FormData();
@@ -576,8 +599,8 @@ elseif ($ac == 'add') {
                 $('#addStatus').html('<div class="alert alert-danger">Serial không được để trống.</div>');
                 return;
             }
-            formData.append("dateErr", $('#slDateErr').val());
-            formData.append("dateOK", $('#slDateOK').val());
+            formData.append("dateErr", moment($('#slDateErr').val(), 'HH:mm DD/MM/YYYY').format('YYYY-MM-DD HH:mm:ss'));
+            formData.append("dateOK", moment($('#slDateOK').val(), 'HH:mm DD/MM/YYYY').format('YYYY-MM-DD HH:mm:ss'));
 
             // Thêm dữ liệu ảnh
             if (img_up) {
@@ -658,11 +681,11 @@ elseif ($ac == 'add') {
                 cache: false,
                 contentType: false,
                 processData: false
-            });
-
-
-
+            })
             return false;
+        }
+        $('#addTrouble').on('click', async (e) => {
+            if ($ac == 'add') submitAdd(e)
         })
 
         $(document).ready(() => {
